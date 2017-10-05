@@ -55,11 +55,12 @@ def home():
         email_error = "Make sure this is a correct email address"
         email = ""
     
-    if len(email) != 0:
+    if len(email) == 0:
         if len(verify) != 0:
             if len(password) != 0:
                 if len(username) != 0:
-                    return redirect("/welcome?welcome=User", title="Welcome!")
+                    username = request.form["username"]
+                    return render_template("welcome.html", username=username)
                 else:
                     return render_template("home.html", user_error=user_error, pass_error=pass_error, email_error=email_error,
                         username=username, email=email, password=password, verify=verify)
@@ -69,18 +70,14 @@ def home():
         else:
             return render_template("home.html", user_error=user_error, pass_error=pass_error, email_error=email_error,
                 username=username, email=email, password=password, verify=verify)
-    else:
-        return render_template("home.html", user_error=user_error, pass_error=pass_error, email_error=email_error,
-            username=username, email=email, password=password, verify=verify)
+   
 
 
 
-
-@app.route("/welcome")
-def welcome():
-
-    user_name = request.form['username']
-    return render_template("welcome.html", title="HEY THERE!!")
+#@app.route("/welcome", methods=['POST'])
+#def welcome():
+ #   username = request.form["username"]
+  #  return render_template("welcome.html", username = username)
 
 
 
