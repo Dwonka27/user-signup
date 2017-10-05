@@ -18,6 +18,9 @@ def display_home():
 def is_ascii(s):
     return all(ord(c) < 128 for c in s)
 
+def containsAll(str, set):
+    #"""Check whether 'str' contains ALL of the chars in 'set'"""
+    return 0 not in [c in str for c in set]
 
 @app.route("/home", methods=["POST"])
 def home():
@@ -70,7 +73,23 @@ def home():
         else:
             return render_template("home.html", user_error=user_error, pass_error=pass_error, email_error=email_error,
                 username=username, email=email, password=password, verify=verify)
-   
+    else:
+        if len(email) != 0 and containsAll("@."):
+            
+            if len(verify) != 0:
+                if len(password) != 0:
+                    if len(username) != 0:
+                        username = request.form["username"]
+                        return render_template("welcome.html", username=username)
+                    else:
+                        return render_template("home.html", user_error=user_error, pass_error=pass_error, email_error=email_error,
+                            username=username, email=email, password=password, verify=verify)
+                else:
+                    return render_template("home.html", user_error=user_error, pass_error=pass_error, email_error=email_error,
+                        username=username, email=email, password=password, verify=verify)
+            else:
+                return render_template("home.html", user_error=user_error, pass_error=pass_error, email_error=email_error,
+                    username=username, email=email, password=password, verify=verify)
 
 
 
